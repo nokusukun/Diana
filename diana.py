@@ -1,7 +1,8 @@
 import discord
 import asyncio
 from discord.ext import commands
-from commands import urbandict, gelbooru
+from commands import urbandict, gelbooru, wolfram
+import config
 
 
 bot = commands.Bot(command_prefix='!')
@@ -27,6 +28,14 @@ async def on_message(message):
         msg = gelbooru.gelbooru_search(message.content.split(' ', 1)[1])
         await client.send_message(message.channel, embed=msg)
 
+    if message.content.startswith("!w"):
+        msg = wolfram.weather(message.content.split(' ', 1)[1], config.pyowm_token)
+        await client.send_message(message.channel, embed=msg)
+
+    if message.content.startswith("!?"):
+        msg = wolfram.wolf(message.content.split(' ', 1)[1], config.wolfram_token)
+        await client.send_message(message.channel, embed=msg)
+
+
 if __name__ == '__main__':
-    token = open('token', 'r').readline().rstrip()
-    client.run(token)
+    client.run(config.discord_api_token)

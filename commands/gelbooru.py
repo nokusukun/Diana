@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 
 def gelbooru_search(message, cache):
 
-    if message in cache and len(cache[message]) > 1:
+    if not message in cache or len(cache[message]) <= 1:
         # checks if there's a cached search in the search cache and skips this one.
         url = "http://gelbooru.com/index.php?page=dapi&s=post&q=index&tags="
         r = requests.get(url + message)
